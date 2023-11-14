@@ -13,9 +13,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
+import { PasswordStrengthBarComponent } from './components/password-strength-bar/password-strength-bar.component';
+import {
+  ProgressBarMode,
+  MatProgressBarModule,
+} from '@angular/material/progress-bar';
 
 @NgModule({
-  declarations: [AppComponent, UserAuthFormComponent],
+  declarations: [
+    AppComponent,
+    UserAuthFormComponent,
+    PasswordStrengthBarComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -29,6 +38,7 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatTabsModule,
     MatCardModule,
+    MatProgressBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -91,6 +91,9 @@
               <mat-error>
                 {{ getPassErrorMessage() }}
               </mat-error>
+              <app-password-strength-bar
+                [password]="currentPassword"
+              ></app-password-strength-bar>
             </mat-form-field>
 
             <mat-form-field>

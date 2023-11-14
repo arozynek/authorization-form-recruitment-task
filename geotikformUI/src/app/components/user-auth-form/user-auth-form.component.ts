@@ -17,7 +17,7 @@ export class UserAuthFormComponent implements OnInit {
   isLoginMode = true;
   passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@.#$!%*?&]{8,}$/;
   hide = true;
-  strongPassword = false;
+  currentPassword: string = '';
 
   constructor(private fb: FormBuilder, private userService: UserAuthService) {
     this.authForm = this.fb.group(
@@ -34,6 +34,9 @@ export class UserAuthFormComponent implements OnInit {
   }
   ngOnInit(): void {
     this.checkPasswords(this.authForm);
+    this.authForm
+      .get('password')
+      ?.valueChanges.subscribe((value) => (this.currentPassword = value));
   }
 
   // Custom validator
