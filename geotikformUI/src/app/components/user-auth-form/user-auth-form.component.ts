@@ -15,10 +15,14 @@ import { UserAuthService } from 'src/app/services/user-auth.service';
 export class UserAuthFormComponent implements OnInit {
   authForm: FormGroup;
   isLoginMode = true;
+  isResetMode = false;
   passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@.#$!%*?&]{8,}$/;
   hide = true;
   currentPassword: string = '';
 
+  changeResetMode(value: boolean): void {
+    this.isResetMode = value;
+  }
   constructor(private fb: FormBuilder, private userService: UserAuthService) {
     this.authForm = this.fb.group(
       {
@@ -66,7 +70,6 @@ export class UserAuthFormComponent implements OnInit {
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
     this.authForm.reset();
-    console.log(this.isLoginMode ? 'login' : 'register');
   }
 
   onSubmit() {

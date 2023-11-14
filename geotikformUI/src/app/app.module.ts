@@ -18,12 +18,14 @@ import {
   ProgressBarMode,
   MatProgressBarModule,
 } from '@angular/material/progress-bar';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserAuthFormComponent,
     PasswordStrengthBarComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,
