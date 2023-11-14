@@ -55,12 +55,18 @@ export class UserAuthFormComponent implements OnInit {
       : '';
   }
   getEmailErrorMessage() {
-    if (this.authForm.get('email')?.touched) {
-      return 'Email jest wymagany';
+    if (
+      this.authForm.get('email')?.touched &&
+      this.authForm.get('email')?.hasError('email')
+    ) {
+      return 'Email jest niepoprawny';
     }
-    return this.authForm.get('email')?.hasError('email')
-      ? 'Email jest niepoprawny'
-      : '';
+    return this.authForm.get('email')?.touched ? 'Email jest wymagany' : '';
+  }
+  toggleMode() {
+    this.isLoginMode = !this.isLoginMode;
+    this.authForm.reset();
+    console.log(this.isLoginMode ? 'login' : 'register');
   }
 
   onSubmit() {

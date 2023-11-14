@@ -2,7 +2,7 @@
   <mat-card class="mat-elevation-z12">
     <section class="window-form-container">
       <img class="LOGO" src="assets/logo_gpsguardian.svg" />
-      <mat-tab-group animationDuration="0ms">
+      <mat-tab-group animationDuration="0ms" (selectedTabChange)="toggleMode()">
         <mat-tab label="Logowanie">
           <form
             class="form-container"
