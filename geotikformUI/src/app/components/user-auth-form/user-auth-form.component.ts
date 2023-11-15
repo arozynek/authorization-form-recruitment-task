@@ -50,19 +50,21 @@ export class UserAuthFormComponent implements OnInit, OnChanges {
       }
     );
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.resetMessages();
+  }
   ngOnInit(): void {
     this.authForm
       .get('password')
       ?.valueChanges.subscribe((value) => (this.currentPassword = value));
   }
-  ngOnChanges(changes: SimpleChanges): void {
+  resetMessages() {
     this.okRes = false;
     this.acceptedRes = false;
     this.unauthorizedRes = false;
     this.badRequestRes = false;
     this.unknownRes = false;
   }
-
   logErrors(group: FormGroup): void {
     console.log(group.invalid);
   }
@@ -133,5 +135,6 @@ export class UserAuthFormComponent implements OnInit, OnChanges {
       console.error('Niepoprawna akcja logowania/rejestracji');
       console.log(this.authForm);
     }
+    this.resetMessages();
   }
 }
