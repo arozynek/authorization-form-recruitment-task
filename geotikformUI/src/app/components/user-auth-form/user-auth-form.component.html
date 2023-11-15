@@ -61,14 +61,12 @@
               (emailForReset)="bindEmailFromReset($event)"
               (submitResetPass)="onSubmit()"
             >
-              <span *ngIf="acceptedRes"
-                >Na podany mail został wysłany link</span
-              >
-              <span *ngIf="badRequestRes">Niepoprawny email lub hasło</span>
-              <span *ngIf="unknownRes"
-                >Brak połączenia z serwisem, przepraszamy</span
-              >
             </app-reset-password>
+            <span *ngIf="acceptedRes">Na podany mail został wysłany link</span>
+            <span *ngIf="badRequestRes">Niepoprawny email lub hasło</span>
+            <span *ngIf="unknownRes"
+              >Brak połączenia z serwisem, przepraszamy</span
+            >
           </div>
         </mat-tab>
         <mat-tab label="Rejestracja">

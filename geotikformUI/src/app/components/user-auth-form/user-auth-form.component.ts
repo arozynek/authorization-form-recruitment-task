@@ -90,10 +90,9 @@ export class UserAuthFormComponent implements OnInit {
 
   onSubmit() {
     if (this.isResetMode) {
-      console.log('reset');
       this.userService.resetPassword(this.toEmail).subscribe({
-        next: (res) => this.showResponseInfo(res.statusCode),
-        error: (err) => this.showResponseInfo(err.code),
+        next: (res) => this.showResponseInfo(res.status),
+        error: (err) => this.showResponseInfo(err.status),
         complete: () => console.log('Completed'),
       });
     } else if (this.isLoginMode) {
@@ -103,17 +102,17 @@ export class UserAuthFormComponent implements OnInit {
       ) {
         const userData = this.authForm.value;
         this.userService.login(userData.email, userData.password).subscribe({
-          next: (res) => this.showResponseInfo(res.statusCode),
-          error: (err) => this.showResponseInfo(err.code),
-          complete: () => console.log('Completed'),
+          next: (res) => this.showResponseInfo(res.status),
+          error: (err) => this.showResponseInfo(err.status),
+          complete: () => console.log('Complete'),
         });
         console.log('Logowanie:', userData);
       }
     } else if (this.authForm.valid) {
       const userData = this.authForm.value;
       this.userService.register(userData.email, userData.password).subscribe({
-        next: (res) => this.showResponseInfo(res.statusCode),
-        error: (err) => this.showResponseInfo(err.code),
+        next: (res) => this.showResponseInfo(res.status),
+        error: (err) => this.showResponseInfo(err.status),
         complete: () => console.log('HTTP request completed.'),
       });
       console.log('Rejestracja:', userData);

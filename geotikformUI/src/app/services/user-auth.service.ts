@@ -13,6 +13,7 @@ const httpOptions = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
   }),
+  observe: 'response' as 'body',
 };
 
 @Injectable({
