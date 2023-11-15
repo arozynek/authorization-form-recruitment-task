@@ -1,168 +1,175 @@
 <div class="login-page">
-  <mat-card class="mat-elevation-z12">
-    <section class="window-form-container">
-      <img class="LOGO" src="assets/logo_gpsguardian.svg" />
-      <mat-tab-group animationDuration="0ms" (selectedTabChange)="toggleMode()">
+  <mat-card>
+    <mat-card-content class="window-form-container">
+      <img class="logo" src="assets/logo_gpsguardian.svg" />
+      <mat-tab-group
+        dynamicHeight
+        class="form-container"
+        (selectedTabChange)="toggleMode()"
+      >
         <mat-tab label="Logowanie">
-          <form
-            class="form-container"
-            [formGroup]="authForm"
-            (ngSubmit)="onSubmit()"
-            *ngIf="!isResetMode"
-          >
-            <mat-form-field>
-              <input
-                matInput
-                placeholder="Email"
-                type="email"
-                formControlName="email"
-                required
-              />
-              <mat-error>{{ getEmailErrorMessage() }}</mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <input
-                matInput
-                placeholder="Hasło"
-                [type]="hide ? 'password' : 'text'"
-                formControlName="password"
-                required
-              />
-              <button
-                type="button"
-                mat-icon-button
-                matSuffix
-                (click)="hide = !hide"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide"
-              >
-                <mat-icon>{{
-                  hide ? "visibility_off" : "visibility"
-                }}</mat-icon>
+          <div class="login-container form-card">
+            <form
+              class="login-form"
+              [formGroup]="authForm"
+              (ngSubmit)="onSubmit()"
+              *ngIf="!isResetMode"
+            >
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" required />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Hasło</mat-label>
+                <input
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  formControlName="password"
+                  required
+                />
+                <button
+                  type="button"
+                  mat-icon-button
+                  matSuffix
+                  (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide"
+                >
+                  <mat-icon>{{
+                    hide ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+              </mat-form-field>
+              <button class="forget-pass-btn" (click)="isResetMode = true">
+                Nie pamiętam hasła
               </button>
-              <mat-error>
-                {{ getPassErrorMessage() }}
-              </mat-error>
-            </mat-form-field>
-            <button (click)="isResetMode = true">Nie pamiętam hasła</button>
-            <span *ngIf="okRes">Poprawne logowanie</span>
-            <span *ngIf="unauthorizedRes">Niepoprawny email lub hasło</span>
-            <span *ngIf="unknownRes"
-              >Brak połączenia z serwisem, przepraszamy</span
-            >
+              <span *ngIf="okRes">Poprawne logowanie</span>
+              <span *ngIf="unauthorizedRes">Niepoprawny email lub hasło</span>
+              <span *ngIf="unknownRes"
+                >Brak połączenia z serwisem, przepraszamy</span
+              >
 
-            <button mat-raised-button color="primary" type="submit">
-              Zaloguj się
-            </button>
-          </form>
-          <div *ngIf="isResetMode">
-            <app-reset-password
-              (isResetMode)="changeResetMode($event)"
-              (emailForReset)="bindEmailFromReset($event)"
-              (submitResetPass)="onSubmit()"
-            >
-            </app-reset-password>
-            <span *ngIf="acceptedRes">Na podany mail został wysłany link</span>
-            <span *ngIf="badRequestRes">Niepoprawny email lub hasło</span>
-            <span *ngIf="unknownRes"
-              >Brak połączenia z serwisem, przepraszamy</span
-            >
+              <button
+                class="submit-btn"
+                mat-raised-button
+                color="primary"
+                type="submit"
+              >
+                Zaloguj się
+              </button>
+            </form>
+
+            <div *ngIf="isResetMode">
+              <app-reset-password
+                (isResetMode)="changeResetMode($event)"
+                (emailForReset)="bindEmailFromReset($event)"
+                (submitResetPass)="onSubmit()"
+              >
+              </app-reset-password>
+              <span *ngIf="acceptedRes"
+                >Na podany mail został wysłany link</span
+              >
+              <span *ngIf="badRequestRes">Niepoprawny email lub hasło</span>
+              <span *ngIf="unknownRes"
+                >Brak połączenia z serwisem, przepraszamy</span
+              >
+            </div>
           </div>
         </mat-tab>
         <mat-tab label="Rejestracja">
-          <form
-            class="form-container"
-            [formGroup]="authForm"
-            (ngSubmit)="onSubmit()"
-          >
-            <mat-form-field>
-              <input
-                matInput
-                placeholder="Email"
-                type="email"
-                formControlName="email"
-                required
-              />
-              <mat-error>{{ getEmailErrorMessage() }}</mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <input
-                matInput
-                placeholder="Hasło"
-                [type]="hide ? 'password' : 'text'"
-                formControlName="password"
-                required
-              />
-              <button
-                type="button"
-                mat-icon-button
-                matSuffix
-                (click)="hide = !hide"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide"
-              >
-                <mat-icon>{{
-                  hide ? "visibility_off" : "visibility"
-                }}</mat-icon>
-              </button>
-              <mat-error>
-                {{ getPassErrorMessage() }}
-              </mat-error>
-              <app-password-strength-bar
-                [password]="currentPassword"
-              ></app-password-strength-bar>
-            </mat-form-field>
-
-            <mat-form-field>
-              <input
-                matInput
-                [type]="hide ? 'password' : 'text'"
-                formControlName="confirmPassword"
-                placeholder="Potwierdź hasło"
-                required
-              />
-              <button
-                type="button"
-                mat-icon-button
-                matSuffix
-                (click)="hide = !hide"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide"
-              >
-                <mat-icon>{{
-                  hide ? "visibility_off" : "visibility"
-                }}</mat-icon>
-              </button>
-              <mat-error
-                *ngIf="
-                  authForm.get('confirmPassword')?.invalid &&
-                  authForm.get('confirmPassword')?.touched
-                "
-              >
-                <span
-                  *ngIf="authForm.get('confirmPassword')?.hasError('required')"
-                  >Pole nie może być puste</span
-                >
-                <span
-                  *ngIf="
-                    authForm.get('confirmPassword')?.hasError('notMatching')
-                  "
-                  >Hasła różnią się</span
-                >
-              </mat-error>
-            </mat-form-field>
-
-            <button
-              mat-raised-button
-              color="primary"
-              type="submit"
-              [disabled]="authForm.invalid"
+          <div class="register-container form-card">
+            <form
+              class="register-form"
+              [formGroup]="authForm"
+              (ngSubmit)="onSubmit()"
             >
-              Zarejestruj się
-            </button>
-          </form>
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" required />
+                <mat-error>{{ getEmailErrorMessage() }}</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Hasło</mat-label>
+                <input
+                  matInput
+                  placeholder="Hasło"
+                  [type]="hide ? 'password' : 'text'"
+                  formControlName="password"
+                  required
+                />
+                <button
+                  type="button"
+                  mat-icon-button
+                  matSuffix
+                  (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide"
+                >
+                  <mat-icon>{{
+                    hide ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+                <mat-error>
+                  {{ getPassErrorMessage() }}
+                </mat-error>
+                <app-password-strength-bar
+                  [password]="currentPassword"
+                ></app-password-strength-bar>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Potwierdź hasło</mat-label>
+                <input
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  formControlName="confirmPassword"
+                  required
+                />
+                <button
+                  type="button"
+                  mat-icon-button
+                  matSuffix
+                  (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide"
+                >
+                  <mat-icon>{{
+                    hide ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+                <mat-error
+                  *ngIf="
+                    authForm.get('confirmPassword')?.invalid &&
+                    authForm.get('confirmPassword')?.touched
+                  "
+                >
+                  <span
+                    *ngIf="
+                      authForm.get('confirmPassword')?.hasError('required')
+                    "
+                    >Pole nie może być puste</span
+                  >
+                  <span
+                    *ngIf="
+                      authForm.get('confirmPassword')?.hasError('notMatching')
+                    "
+                    >Hasła różnią się</span
+                  >
+                </mat-error>
+              </mat-form-field>
+
+              <button
+                class="submit-btn"
+                mat-raised-button
+                color="primary"
+                type="submit"
+              >
+                Zarejestruj się
+              </button>
+            </form>
+          </div>
         </mat-tab>
       </mat-tab-group>
-    </section>
+    </mat-card-content>
   </mat-card>
 </div>

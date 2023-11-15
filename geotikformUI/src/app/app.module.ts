@@ -8,7 +8,10 @@ import { UserAuthFormComponent } from './components/user-auth-form/user-auth-for
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -39,7 +42,12 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     MatCardModule,
     MatProgressBarModule,
   ],
-  providers: [],
+  providers: [
+    // {
+    //   provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+    //   useValue: { appearance: 'outline' },
+    // },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { UserAuthService } from 'src/app/services/user-auth.service';
@@ -9,7 +15,7 @@ import { PasswordMatchingService } from 'src/app/services/password-matching.serv
   templateUrl: './user-auth-form.component.html',
   styleUrls: ['./user-auth-form.component.css'],
 })
-export class UserAuthFormComponent implements OnInit {
+export class UserAuthFormComponent implements OnInit, OnChanges {
   authForm: FormGroup;
   isLoginMode = true;
   isResetMode = false;
@@ -48,6 +54,13 @@ export class UserAuthFormComponent implements OnInit {
     this.authForm
       .get('password')
       ?.valueChanges.subscribe((value) => (this.currentPassword = value));
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.okRes = false;
+    this.acceptedRes = false;
+    this.unauthorizedRes = false;
+    this.badRequestRes = false;
+    this.unknownRes = false;
   }
 
   logErrors(group: FormGroup): void {
