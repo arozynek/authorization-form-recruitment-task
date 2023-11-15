@@ -13,12 +13,21 @@ export class UserAuthFormComponent implements OnInit {
   authForm: FormGroup;
   isLoginMode = true;
   isResetMode = false;
+  toEmail = '';
   passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@.#$!%*?&]{8,}$/;
   hide = true;
   currentPassword: string = '';
+  okRes = false;
+  acceptedRes = false;
+  unauthorizedRes = false;
+  badRequestRes = false;
+  unknownRes = false;
 
   changeResetMode(value: boolean): void {
     this.isResetMode = value;
+  }
+  bindEmailFromReset(email: string): void {
+    this.toEmail = email;
   }
   constructor(private fb: FormBuilder, private userService: UserAuthService) {
     this.authForm = this.fb.group(
@@ -65,24 +74,46 @@ export class UserAuthFormComponent implements OnInit {
     this.isLoginMode = !this.isLoginMode;
     this.authForm.reset();
   }
+  showResponseInfo(code: number) {
+    if (code == 200) {
+      this.okRes = true;
+    } else if (code == 202) {
+      this.acceptedRes = true;
+    } else if (code == 401) {
+      this.unauthorizedRes = true;
+    } else if (code == 400) {
+      this.badRequestRes = true;
+    } else {
+      this.unknownRes = true;
+    }
+  }
 
   onSubmit() {
-    if (this.isLoginMode) {
+    if (this.isResetMode) {
+      console.log('reset');
+      this.userService.resetPassword(this.toEmail).subscribe({
+        next: (res) => this.showResponseInfo(res.statusCode),
+        error: (err) => this.showResponseInfo(err.code),
+        complete: () => console.log('Completed'),
+      });
+    } else if (this.isLoginMode) {
       if (
         this.authForm.get('password')?.valid &&
         this.authForm.get('email')?.valid
       ) {
         const userData = this.authForm.value;
         this.userService.login(userData.email, userData.password).subscribe({
-          error: (err) => console.log('HTTP Error', err),
-          complete: () => console.log('HTTP request completed.'),
+          next: (res) => this.showResponseInfo(res.statusCode),
+          error: (err) => this.showResponseInfo(err.code),
+          complete: () => console.log('Completed'),
         });
         console.log('Logowanie:', userData);
       }
     } else if (this.authForm.valid) {
       const userData = this.authForm.value;
       this.userService.register(userData.email, userData.password).subscribe({
-        error: (err) => console.log('HTTP Error', err),
+        next: (res) => this.showResponseInfo(res.statusCode),
+        error: (err) => this.showResponseInfo(err.code),
         complete: () => console.log('HTTP request completed.'),
       });
       console.log('Rejestracja:', userData);

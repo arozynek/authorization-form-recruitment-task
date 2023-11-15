@@ -45,15 +45,31 @@
               </mat-error>
             </mat-form-field>
             <button (click)="isResetMode = true">Nie pamiętam hasła</button>
+            <span *ngIf="okRes">Poprawne logowanie</span>
+            <span *ngIf="unauthorizedRes">Niepoprawny email lub hasło</span>
+            <span *ngIf="unknownRes"
+              >Brak połączenia z serwisem, przepraszamy</span
+            >
 
             <button mat-raised-button color="primary" type="submit">
               Zaloguj się
             </button>
           </form>
-          <app-reset-password
-            *ngIf="isResetMode"
-            (isResetMode)="changeResetMode($event)"
-          ></app-reset-password>
+          <div *ngIf="isResetMode">
+            <app-reset-password
+              (isResetMode)="changeResetMode($event)"
+              (emailForReset)="bindEmailFromReset($event)"
+              (submitResetPass)="onSubmit()"
+            >
+              <span *ngIf="acceptedRes"
+                >Na podany mail został wysłany link</span
+              >
+              <span *ngIf="badRequestRes">Niepoprawny email lub hasło</span>
+              <span *ngIf="unknownRes"
+                >Brak połączenia z serwisem, przepraszamy</span
+              >
+            </app-reset-password>
+          </div>
         </mat-tab>
         <mat-tab label="Rejestracja">
           <form

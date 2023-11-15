@@ -8,11 +8,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ResetPasswordComponent {
   @Output() isResetMode = new EventEmitter<boolean>();
+  @Output() emailForReset = new EventEmitter<string>();
+  @Output() submitResetPass = new EventEmitter();
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
   });
   turnOffResetMode() {
     this.isResetMode.emit(false);
+  }
+  sendEmail(email: string) {
+    this.emailForReset.emit(email);
   }
   getEmailErrorMessage() {
     if (
@@ -23,5 +28,7 @@ export class ResetPasswordComponent {
     }
     return this.form.get('email')?.touched ? 'Email jest wymagany' : '';
   }
-  onSubmit() {}
+  onSubmit() {
+    this.submitResetPass.emit(null);
+  }
 }

@@ -55,9 +55,14 @@ export class UserAuthService {
     );
   }
 
-  public resetPassword(email: string): string {
-    var msg = 'Link do zmiany hasła został wysłany na podany e-mail:' + email;
-    return msg;
+  public resetPassword(email: string): Observable<any> {
+    return this.http.post<User>(
+      geotikUserAPI + '/users/resetPassword',
+      {
+        email,
+      },
+      httpOptions
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
