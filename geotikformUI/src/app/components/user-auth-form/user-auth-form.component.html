@@ -45,12 +45,7 @@
             </mat-form-field>
             <button (click)="isResetMode = true">Nie pamiętam hasła</button>
 
-            <button
-              mat-raised-button
-              color="primary"
-              type="submit"
-              [disabled]="authForm.invalid"
-            >
+            <button mat-raised-button color="primary" type="submit">
               Zaloguj się
             </button>
           </form>
@@ -121,13 +116,30 @@
                   hide ? "visibility_off" : "visibility"
                 }}</mat-icon>
               </button>
+              <mat-error
+                *ngIf="
+                  authForm.get('confirmPassword')?.invalid &&
+                  authForm.get('confirmPassword')?.touched
+                "
+              >
+                <span
+                  *ngIf="authForm.get('confirmPassword')?.hasError('required')"
+                  >Pole nie może być puste</span
+                >
+                <span
+                  *ngIf="
+                    authForm.get('confirmPassword')?.hasError('notMatching')
+                  "
+                  >Hasła różnią się</span
+                >
+              </mat-error>
             </mat-form-field>
 
             <button
               mat-raised-button
               color="primary"
               type="submit"
-              [disabled]="authForm.invalid"
+              disabled="authForm.invalid"
             >
               Zarejestruj się
             </button>

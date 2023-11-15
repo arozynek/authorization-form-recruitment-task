@@ -19,6 +19,7 @@ export class PasswordStrengthBarComponent implements OnChanges {
   }
 
   passwordStrength(password: string) {
+    if (password == null) return this.strength;
     if (password.length >= 8) {
       this.strength += 20;
     }

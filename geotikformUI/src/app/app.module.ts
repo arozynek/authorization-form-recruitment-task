@@ -14,10 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { PasswordStrengthBarComponent } from './components/password-strength-bar/password-strength-bar.component';
-import {
-  ProgressBarMode,
-  MatProgressBarModule,
-} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({

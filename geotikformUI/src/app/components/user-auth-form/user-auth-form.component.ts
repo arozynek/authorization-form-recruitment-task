@@ -5,7 +5,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+
 import { UserAuthService } from 'src/app/services/user-auth.service';
+import { PasswordMatchingService } from 'src/app/services/password-matching.service';
 
 @Component({
   selector: 'app-user-auth-form',
@@ -31,24 +33,29 @@ export class UserAuthFormComponent implements OnInit {
           '',
           [Validators.required, Validators.pattern(this.passRegex)],
         ],
-        confirmPassword: [''],
+        confirmPassword: [
+          '',
+          [Validators.required, Validators.pattern(this.passRegex)],
+        ],
       },
-      { validators: this.checkPasswords }
+      { validator: PasswordMatchingService.passwordMatching }
     );
   }
   ngOnInit(): void {
-    this.checkPasswords(this.authForm);
     this.authForm
       .get('password')
       ?.valueChanges.subscribe((value) => (this.currentPassword = value));
   }
 
-  // Custom validator
-  checkPasswords(group: FormGroup): ValidationErrors | null {
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
+  // // Custom validator
+  // checkPasswords(group: FormGroup): ValidationErrors | null {
+  //   const password = group.get('password')?.value;
+  //   const confirmPassword = group.get('confirmPassword')?.value;
 
-    return password === confirmPassword ? null : { notSame: true };
+  //   return password === confirmPassword ? null : { notSame: true };
+  // }
+  logErrors(group: FormGroup): void {
+    console.log(group.invalid);
   }
   getPassErrorMessage() {
     if (this.authForm.get('password')?.hasError('required')) {
