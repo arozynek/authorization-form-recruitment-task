@@ -33,8 +33,8 @@ export class UserAuthService {
       .pipe(catchError(this.handleError));
   }
 
-  public login(email: string, password: string): void {
-    const http$ = this.http.post<User>(
+  public login(email: string, password: string): Observable<any> {
+    return this.http.post<User>(
       geotikUserAPI + '/auth/login',
       {
         email,
@@ -42,14 +42,10 @@ export class UserAuthService {
       },
       httpOptions
     );
-    http$.subscribe({
-      error: (err) => console.log('HTTP Error', err),
-      complete: () => console.log('HTTP request completed.'),
-    });
   }
 
-  public register(email: string, password: string): Observable<any> | void {
-    const http$ = this.http.post<User>(
+  public register(email: string, password: string): Observable<any> {
+    return this.http.post<User>(
       geotikUserAPI + '/users',
       {
         email,
@@ -57,10 +53,6 @@ export class UserAuthService {
       },
       httpOptions
     );
-    http$.subscribe({
-      error: (err) => console.log('HTTP Error', err),
-      complete: () => console.log('HTTP request completed.'),
-    });
   }
 
   public resetPassword(email: string): string {

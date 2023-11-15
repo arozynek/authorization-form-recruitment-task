@@ -29,6 +29,7 @@
                 required
               />
               <button
+                type="button"
                 mat-icon-button
                 matSuffix
                 (click)="hide = !hide"
@@ -79,6 +80,7 @@
                 required
               />
               <button
+                type="button"
                 mat-icon-button
                 matSuffix
                 (click)="hide = !hide"
@@ -106,6 +108,7 @@
                 required
               />
               <button
+                type="button"
                 mat-icon-button
                 matSuffix
                 (click)="hide = !hide"
@@ -139,7 +142,7 @@
               mat-raised-button
               color="primary"
               type="submit"
-              disabled="authForm.invalid"
+              [disabled]="authForm.invalid"
             >
               Zarejestruj się
             </button>

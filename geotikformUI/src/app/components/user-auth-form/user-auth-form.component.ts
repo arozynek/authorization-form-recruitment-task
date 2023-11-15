@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { UserAuthService } from 'src/app/services/user-auth.service';
 import { PasswordMatchingService } from 'src/app/services/password-matching.service';
@@ -33,12 +28,11 @@ export class UserAuthFormComponent implements OnInit {
           '',
           [Validators.required, Validators.pattern(this.passRegex)],
         ],
-        confirmPassword: [
-          '',
-          [Validators.required, Validators.pattern(this.passRegex)],
-        ],
+        confirmPassword: [''],
       },
-      { validator: PasswordMatchingService.passwordMatching }
+      {
+        validator: PasswordMatchingService.passwordMatching,
+      }
     );
   }
   ngOnInit(): void {
@@ -47,13 +41,6 @@ export class UserAuthFormComponent implements OnInit {
       ?.valueChanges.subscribe((value) => (this.currentPassword = value));
   }
 
-  // // Custom validator
-  // checkPasswords(group: FormGroup): ValidationErrors | null {
-  //   const password = group.get('password')?.value;
-  //   const confirmPassword = group.get('confirmPassword')?.value;
-
-  //   return password === confirmPassword ? null : { notSame: true };
-  // }
   logErrors(group: FormGroup): void {
     console.log(group.invalid);
   }
@@ -80,17 +67,28 @@ export class UserAuthFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.authForm.valid) {
-      const userData = this.authForm.value;
-      if (this.isLoginMode) {
-        this.userService.login(userData.email, userData.password);
+    if (this.isLoginMode) {
+      if (
+        this.authForm.get('password')?.valid &&
+        this.authForm.get('email')?.valid
+      ) {
+        const userData = this.authForm.value;
+        this.userService.login(userData.email, userData.password).subscribe({
+          error: (err) => console.log('HTTP Error', err),
+          complete: () => console.log('HTTP request completed.'),
+        });
         console.log('Logowanie:', userData);
-      } else {
-        this.userService.register(userData.email, userData.password);
-        console.log('Rejestracja:', userData);
       }
+    } else if (this.authForm.valid) {
+      const userData = this.authForm.value;
+      this.userService.register(userData.email, userData.password).subscribe({
+        error: (err) => console.log('HTTP Error', err),
+        complete: () => console.log('HTTP request completed.'),
+      });
+      console.log('Rejestracja:', userData);
     } else {
-      console.log('Niepoprawna akcja logowania/rejestracji');
+      console.error('Niepoprawna akcja logowania/rejestracji');
+      console.log(this.authForm);
     }
   }
 }
