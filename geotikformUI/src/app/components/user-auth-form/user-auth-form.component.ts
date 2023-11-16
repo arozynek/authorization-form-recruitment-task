@@ -1,11 +1,16 @@
 import {
   Component,
-  DoCheck,
   OnChanges,
   OnInit,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 
 import { UserAuthService } from 'src/app/services/user-auth.service';
 import { PasswordMatchingService } from 'src/app/services/password-matching.service';
@@ -28,6 +33,8 @@ export class UserAuthFormComponent implements OnInit, OnChanges {
   unauthorizedRes = false;
   badRequestRes = false;
   unknownRes = false;
+  addedUser = false;
+  @ViewChild(FormGroupDirective) myForm: any;
 
   changeResetMode(value: boolean): void {
     this.isResetMode = value;
@@ -108,7 +115,7 @@ export class UserAuthFormComponent implements OnInit, OnChanges {
       this.userService.resetPassword(this.toEmail).subscribe({
         next: (res) => this.showResponseInfo(res.status),
         error: (err) => this.showResponseInfo(err.status),
-        complete: () => console.log('Completed'),
+        complete: () => console.log('Reset is completed'),
       });
     } else if (this.isLoginMode) {
       if (
@@ -119,7 +126,10 @@ export class UserAuthFormComponent implements OnInit, OnChanges {
         this.userService.login(userData.email, userData.password).subscribe({
           next: (res) => this.showResponseInfo(res.status),
           error: (err) => this.showResponseInfo(err.status),
-          complete: () => console.log('Complete'),
+          complete: () => {
+            console.log('Login is completed');
+            this.authForm.reset();
+          },
         });
         console.log('Logowanie:', userData);
       }
@@ -128,7 +138,11 @@ export class UserAuthFormComponent implements OnInit, OnChanges {
       this.userService.register(userData.email, userData.password).subscribe({
         next: (res) => this.showResponseInfo(res.status),
         error: (err) => this.showResponseInfo(err.status),
-        complete: () => console.log('HTTP request completed.'),
+        complete: () => {
+          this.addedUser = true;
+          this.authForm.reset();
+          console.log(this.authForm);
+        },
       });
       console.log('Rejestracja:', userData);
     } else {

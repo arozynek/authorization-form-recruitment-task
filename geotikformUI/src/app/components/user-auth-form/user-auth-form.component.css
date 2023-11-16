@@ -11,7 +11,7 @@
   background-size: cover;
   overflow: hidden;
 }
-mat-card {
+mat-card.card-container {
   width: 75%;
   height: 80vh;
   border-radius: 8px;
@@ -26,10 +26,24 @@ mat-card {
 .window-form-container {
   height: 100%;
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 1fr 6fr 1fr;
   grid-template-rows: 15% auto;
   padding: 30px;
   max-height: 100%;
+}
+div.password-container {
+  position: relative;
+}
+mat-card.password-error-card {
+  padding: 2px 3px;
+  font-size: 0.7rem;
+  color: red;
+  font-family: Roboboto, sans-serif;
+  position: absolute;
+  right: -130px;
+  width: 120px;
+  z-index: 10;
+  float: right;
 }
 .form-container mat-form-field + mat-form-field {
   margin-left: 8px;
@@ -49,6 +63,9 @@ mat-tab-group.form-container {
   align-items: center;
   margin: 20px 0 20px;
 }
+.reset-card {
+  justify-content: center;
+}
 
 img.logo {
   grid-column-start: 1;
@@ -62,6 +79,14 @@ img.logo {
 
 .submit-btn {
   margin: 10px;
+}
+.message {
+  font-weight: 200;
+  color: rgb(38, 38, 119);
+  font-size: 1.1rem;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  padding: 10px;
 }
 
 @media only screen and (max-width: 600px) {

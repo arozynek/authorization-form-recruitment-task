@@ -1,5 +1,5 @@
 <div class="login-page">
-  <mat-card>
+  <mat-card class="card-container">
     <mat-card-content class="window-form-container">
       <img class="logo" src="assets/logo_gpsguardian.svg" />
       <mat-tab-group
@@ -43,11 +43,6 @@
               <button class="forget-pass-btn" (click)="isResetMode = true">
                 Nie pamiętam hasła
               </button>
-              <span *ngIf="okRes">Poprawne logowanie</span>
-              <span *ngIf="unauthorizedRes">Niepoprawny email lub hasło</span>
-              <span *ngIf="unknownRes"
-                >Brak połączenia z serwisem, przepraszamy</span
-              >
 
               <button
                 class="submit-btn"
@@ -57,20 +52,29 @@
               >
                 Zaloguj się
               </button>
+              <span class="message" *ngIf="okRes">Poprawne logowanie</span>
+              <span class="message" *ngIf="unauthorizedRes"
+                >Niepoprawny email lub hasło</span
+              >
+              <span class="message" *ngIf="unknownRes"
+                >Brak połączenia z serwisem, przepraszamy</span
+              >
             </form>
 
-            <div *ngIf="isResetMode">
+            <div *ngIf="isResetMode" class="reset-card">
               <app-reset-password
                 (isResetMode)="changeResetMode($event)"
                 (emailForReset)="bindEmailFromReset($event)"
                 (submitResetPass)="onSubmit()"
               >
               </app-reset-password>
-              <span *ngIf="acceptedRes"
-                >Na podany mail został wysłany link</span
+              <span class="message" *ngIf="acceptedRes"
+                >Na podany email został wysłany link</span
               >
-              <span *ngIf="badRequestRes">Niepoprawny email lub hasło</span>
-              <span *ngIf="unknownRes"
+              <span class="message" *ngIf="badRequestRes"
+                >Niepoprawny email lub hasło</span
+              >
+              <span class="message" *ngIf="unknownRes"
                 >Brak połączenia z serwisem, przepraszamy</span
               >
             </div>
@@ -88,35 +92,44 @@
                 <input matInput type="email" formControlName="email" required />
                 <mat-error>{{ getEmailErrorMessage() }}</mat-error>
               </mat-form-field>
-              <mat-form-field>
-                <mat-label>Hasło</mat-label>
-                <input
-                  matInput
-                  placeholder="Hasło"
-                  [type]="hide ? 'password' : 'text'"
-                  formControlName="password"
-                  required
-                />
-                <button
-                  type="button"
-                  mat-icon-button
-                  matSuffix
-                  (click)="hide = !hide"
-                  [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide"
+              <div class="password-container">
+                <mat-card
+                  class="password-error-card"
+                  *ngIf="
+                    authForm.get('password')?.invalid &&
+                    authForm.get('password')?.touched
+                  "
                 >
-                  <mat-icon>{{
-                    hide ? "visibility_off" : "visibility"
-                  }}</mat-icon>
-                </button>
-                <mat-error>
+                  <mat-icon fontIcon="warning"></mat-icon>
                   {{ getPassErrorMessage() }}
-                </mat-error>
-                <app-password-strength-bar
-                  [password]="currentPassword"
-                ></app-password-strength-bar>
-              </mat-form-field>
+                </mat-card>
+                <mat-form-field>
+                  <mat-label>Hasło</mat-label>
+                  <input
+                    matInput
+                    placeholder="Hasło"
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matSuffix
+                    (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
+                  >
+                    <mat-icon>{{
+                      hide ? "visibility_off" : "visibility"
+                    }}</mat-icon>
+                  </button>
 
+                  <app-password-strength-bar
+                    [password]="currentPassword"
+                  ></app-password-strength-bar>
+                </mat-form-field>
+              </div>
               <mat-form-field>
                 <mat-label>Potwierdź hasło</mat-label>
                 <input
@@ -166,6 +179,9 @@
               >
                 Zarejestruj się
               </button>
+              <span class="message" *ngIf="addedUser"
+                >Użytkownik został zarejestrowany</span
+              >
             </form>
           </div>
         </mat-tab>
