@@ -12,7 +12,7 @@
   overflow: hidden;
 }
 mat-card.card-container {
-  width: 75%;
+  width: 60%;
   height: 80vh;
   border-radius: 8px;
   position: absolute;
@@ -40,8 +40,8 @@ mat-card.password-error-card {
   color: red;
   font-family: Roboboto, sans-serif;
   position: absolute;
-  right: -130px;
-  width: 120px;
+  right: -50%;
+  width: 48%;
   z-index: 10;
   float: right;
 }
@@ -63,6 +63,7 @@ mat-tab-group.form-container {
   align-items: center;
   margin: 20px 0 20px;
 }
+
 .reset-card {
   justify-content: center;
 }
@@ -89,7 +90,7 @@ img.logo {
   padding: 10px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) and (max-width: 767px) {
   .form-container {
     height: 200px;
     font-size: 0.5rem;
@@ -102,14 +103,32 @@ img.logo {
   }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  mat-card.card-container {
+    width: 75%;
+  }
+  .window-form-container {
+    grid-template-columns: 0fr 8fr 0fr;
+  }
+  mat-card.password-error-card {
+    padding: 2px 3px;
+    font-size: 0.6rem;
+    right: -130px;
+    width: 120px;
+  }
 }
 
-@media only screen and (min-width: 768px) {
-}
-
-@media only screen and (min-width: 992px) {
-}
-
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+  mat-card.card-container {
+    width: 60%;
+  }
+  .window-form-container {
+    grid-template-columns: 1fr 8fr 1fr;
+  }
+  mat-card.password-error-card {
+    padding: 2px 3px;
+    font-size: 0.6rem;
+    right: -40%;
+    width: 38%;
+  }
 }

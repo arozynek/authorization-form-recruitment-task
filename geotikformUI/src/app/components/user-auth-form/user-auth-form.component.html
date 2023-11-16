@@ -150,12 +150,7 @@
                     hide ? "visibility_off" : "visibility"
                   }}</mat-icon>
                 </button>
-                <mat-error
-                  *ngIf="
-                    authForm.get('confirmPassword')?.invalid &&
-                    authForm.get('confirmPassword')?.touched
-                  "
-                >
+                <mat-error>
                   <span
                     *ngIf="
                       authForm.get('confirmPassword')?.hasError('required')
@@ -164,9 +159,13 @@
                   >
                   <span
                     *ngIf="
-                      authForm.get('confirmPassword')?.hasError('notMatching')
+                      authForm
+                        .get('confirmPassword')
+                        ?.hasError('notMatching') &&
+                      !authForm.get('confirmPassword')?.hasError('required')
                     "
-                    >Hasła różnią się</span
+                  >
+                    Hasła różnią się</span
                   >
                 </mat-error>
               </mat-form-field>
